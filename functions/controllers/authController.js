@@ -1,54 +1,93 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
-
-var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+exports.default = void 0;
 
 var _firebaseServices = _interopRequireDefault(require("../config/firebaseServices"));
 
-var db = _firebaseServices["default"].db;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var getUsers = function _callee(req, res) {
-  var users, snapshot;
-  return _regenerator["default"].async(function _callee$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          _context.prev = 0;
-          users = [];
-          _context.next = 4;
-          return _regenerator["default"].awrap(db.collection('users').get());
+const {
+  db,
+  auth
+} = _firebaseServices.default;
 
-        case 4:
-          snapshot = _context.sent;
-          snapshot.forEach(function (doc) {
-            return users.push(doc.data());
-          });
-          res.status(200).json({
-            users: users
-          });
-          _context.next = 12;
-          break;
+const getUsers = async (req, res) => {
+  try {
+    let users = [];
+    const snapshot = await db.collection('users').get();
+    snapshot.forEach(doc => users.push(doc.data()));
+    res.status(200).json({
+      users
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-        case 9:
-          _context.prev = 9;
-          _context.t0 = _context["catch"](0);
-          console.error(_context.t0);
+const checkEmailExist = async email => {
+  try {
+    const checkEmail = await auth.getUserByEmail(email);
+    if (email) return true;
+  } catch (error) {
+    return false;
+  }
+};
 
-        case 12:
-        case "end":
-          return _context.stop();
-      }
-    }
-  }, null, null, [[0, 9]]);
+const signUp = async (req, res) => {
+  try {
+    const {
+      email,
+      password,
+      firstname,
+      lastname,
+      phone,
+      address,
+      state,
+      country,
+      zipcode
+    } = req.body;
+    const checkEmail = await checkEmailExist(email);
+    if (checkEmail) return res.status(401).json({
+      status: 'success',
+      message: `email ${email} is not available, please check and try again`
+    });
+    const authUser = await auth.createUser({
+      email,
+      password,
+      phoneNumber: phone
+    });
+    const newUser = {
+      email,
+      roleId: 1,
+      firstname,
+      lastname,
+      phone,
+      address,
+      state,
+      country,
+      zipcode,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      userId: authUser.uid
+    };
+    const user = await db.collection('users').doc(authUser.uid).set(newUser);
+    return res.status(201).json({
+      status: 'success',
+      message: 'user created successfully'
+    });
+  } catch (error) {
+    return res.status(404).json({
+      status: 'error',
+      message: error.message
+    });
+  }
 };
 
 var _default = {
-  getUsers: getUsers
+  getUsers,
+  signUp
 };
-exports["default"] = _default;
+exports.default = _default;
