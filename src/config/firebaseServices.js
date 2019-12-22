@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import serviceAccount from '../../service-account/cryptofox-firebase-adminsdk-3qiy0-797a355281.json';
+import serviceAccount from '../service-account/cryptofox-firebase-adminsdk-3qiy0-797a355281.json';
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -7,5 +7,6 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
+const auth = admin.auth();
 
-export default { db };
+export default { db, auth };
