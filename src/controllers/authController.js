@@ -66,4 +66,14 @@ const signin = async (req, res) => {
   }
 }
 
-export default { getUsers, signUp, signin };
+const makeUserAdmin = async (req, res) => {
+  try {
+    const {uid} = req.body;
+    await auth.setCustomUserClaims(uid, { admin: true });
+    return response(res, 201, 'success',  {message: messages.makeAdminSuccess });
+  } catch (error) {
+    return errorResponse(res, 500, 'error', error.code)
+  }
+}
+
+export default { getUsers, signUp, signin, makeUserAdmin };

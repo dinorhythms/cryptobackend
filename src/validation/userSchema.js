@@ -18,6 +18,10 @@ const signInSchema = Joi.object({
   password: JoiValidator.validatePassword().required(),
 });
 
+const authorizerSchema = Joi.object({
+  uid: JoiValidator.validateString().required(),
+});
+
 export {
-  signUpSchema, signInSchema
+  signUpSchema, signInSchema, authorizerSchema
 };
