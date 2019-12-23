@@ -15,12 +15,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const {
   getUsers,
-  signUp
+  signUp,
+  signin
 } = _authController.default;
 
 const auth = router => {
   router.route('/auth/users').get(getUsers);
   router.route('/auth/signup').post((0, _validator.default)(_userSchema.signUpSchema), signUp);
+  router.route('/auth/signin').post((0, _validator.default)(_userSchema.signInSchema), signin);
 };
 
 var _default = auth;

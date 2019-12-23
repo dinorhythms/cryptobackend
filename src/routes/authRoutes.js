@@ -1,10 +1,10 @@
 import authController from "../controllers/authController";
 import validate from '../middlewares/validator';
 import {
-  signUpSchema
+  signUpSchema, signInSchema
 } from '../validation/userSchema';
 
-const { getUsers, signUp } = authController;
+const { getUsers, signUp, signin } = authController;
 
 const auth = (router) => {
   router.route('/auth/users')
@@ -12,6 +12,9 @@ const auth = (router) => {
 
   router.route('/auth/signup')
     .post(validate(signUpSchema), signUp);
+
+  router.route('/auth/signin')
+    .post(validate(signInSchema), signin);
 }
 
 export default auth;

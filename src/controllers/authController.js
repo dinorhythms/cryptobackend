@@ -1,6 +1,10 @@
-import firebaseAdmin from '../config/firebaseServices';
+import firebaseAdmin from '../config/firebaseAdmin';
+import firebaseClient from '../config/firebaseClient';
+import messages from '../utils/messages';
+import response, { errorResponse } from '../utils/response';
 
 const { db, auth } = firebaseAdmin;
+const { clientAuth } = firebaseClient;
 
 const getUsers = async (req, res) => {
   try {
@@ -41,13 +45,25 @@ const signUp = async (req, res) => {
     return res.status(201).json({
       status: 'success',
       message: 'user created successfully',  
+      userId: authUser.uid
     })
   } catch (error) {
-    return res.status(404).json({ 
-      status: 'error',
-      message: error.message
-    })
+    return errorResponse(res, 500, 'error', error.message)
   }
 }
 
-export default { getUsers, signUp };
+const signin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const data = await clientAuth.signInWithEmailAndPassword(email, password);
+    const token = await data.user.getIdToken();
+    return response(res, 201, 'success', {token});
+  } catch (error) {
+    if(error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password'){
+      return errorResponse(res, 403, 'error', messages.wrongCredentials)
+    }
+    return errorResponse(res, 500, 'error', error.code)
+  }
+}
+
+export default { getUsers, signUp, signin };

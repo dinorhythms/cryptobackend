@@ -5,6 +5,7 @@ const messages = {
   emailExists: 'Email address already in use',
   signUpSuccess: 'User account successfully created',
   userNotFound: 'User not found, please check your email address',
+  wrongCredentials: 'Wrong credentials, please check and try again',
   incorrectPassword: 'Incorrect password',
   validEmail: 'Enter a valid email address',
   validName: 'Name must be alphabet without number',
