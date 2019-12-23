@@ -15,6 +15,8 @@ const messages = {
   error: 'An unexpected error occur...',
   forbidden: 'You are not authorized to perform this operation',
   unauthorized: 'You do not have authorization',
+  noToken: 'Token missing, you need a token to have access',
+  makeAdminSuccess: 'Successful, user is now an admin',
 };
 
 export default messages;

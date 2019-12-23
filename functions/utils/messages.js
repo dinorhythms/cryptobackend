@@ -20,7 +20,9 @@ const messages = {
   invalidToken: 'Token you provided is invalid',
   error: 'An unexpected error occur...',
   forbidden: 'You are not authorized to perform this operation',
-  unauthorized: 'You do not have authorization'
+  unauthorized: 'You do not have authorization',
+  noToken: 'Token missing, you need a token to have access',
+  makeAdminSuccess: 'Successful, user is now an admin'
 };
 var _default = messages;
 exports.default = _default;
