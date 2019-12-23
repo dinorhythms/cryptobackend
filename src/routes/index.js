@@ -1,4 +1,5 @@
 import auth from './authRoutes';
+import wallet from './walletRoutes';
 
 const routes = (router) => {
 
@@ -7,6 +8,7 @@ const routes = (router) => {
   })
 
   auth(router);
+  wallet(router);
 
 }
 

@@ -42,6 +42,16 @@ const signUp = async (req, res) => {
       createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), userId: authUser.uid
     }
     const user = await db.collection('users').doc(authUser.uid).set(newUser);
+    //setup users wallet
+    const newWallet = {
+      userId: authUser.uid,
+      balance: 0,
+      totalProfit: 0,
+      totalWithdraw: 0,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    }
+    await db.collection('wallets').doc(authUser.uid).set(newWallet);
     return res.status(201).json({
       status: 'success',
       message: 'user created successfully',  
