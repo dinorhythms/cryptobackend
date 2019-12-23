@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.signUpSchema = void 0;
+exports.signInSchema = exports.signUpSchema = void 0;
 
 var _joi = _interopRequireDefault(require("@hapi/joi"));
 
@@ -24,3 +24,10 @@ const signUpSchema = _joi.default.object({
 });
 
 exports.signUpSchema = signUpSchema;
+
+const signInSchema = _joi.default.object({
+  email: _JoiValidator.default.validateEmail().required(),
+  password: _JoiValidator.default.validatePassword().required()
+});
+
+exports.signInSchema = signInSchema;

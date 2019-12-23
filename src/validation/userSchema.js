@@ -13,6 +13,11 @@ const signUpSchema = Joi.object({
   zipcode: JoiValidator.validateString().required(),
 });
 
+const signInSchema = Joi.object({
+  email: JoiValidator.validateEmail().required(),
+  password: JoiValidator.validatePassword().required(),
+});
+
 export {
-  signUpSchema
+  signUpSchema, signInSchema
 };
