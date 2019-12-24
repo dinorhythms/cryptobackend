@@ -21,8 +21,11 @@ const messages = {
   amountOutOfRange: 'The selected amount is out of range',
   makeAdminSuccess: 'Successful, user is now an admin',
   investmentSuccess: 'Successful, investment added',
+  withdrawalSuccess: 'Successful, withdrawal added',
   approvalSuccess: 'Successful, investment approved',
+  withdrawalApprovalSuccess: 'Successful, withdrawal approved',
   settledSuccess: 'Successful, investment settled',
+  settledWithdrawalSuccess: 'Successful, withdrawal settled',
   notAllowed: 'Action not allowed, not yet time',
 };
 
