@@ -26,7 +26,10 @@ const messages = {
   badPlanId: 'The selected plan is wrong, is check again',
   amountOutOfRange: 'The selected amount is out of range',
   makeAdminSuccess: 'Successful, user is now an admin',
-  investmentSuccess: 'Successful, investment added'
+  investmentSuccess: 'Successful, investment added',
+  approvalSuccess: 'Successful, investment approved',
+  settledSuccess: 'Successful, investment settled',
+  notAllowed: 'Action not allowed, not yet time'
 };
 var _default = messages;
 exports.default = _default;
