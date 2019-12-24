@@ -1,5 +1,4 @@
 import firebaseAdmin from '../config/firebaseAdmin';
-import messages from '../utils/messages';
 import response, { errorResponse } from '../utils/response';
 
 const { db } = firebaseAdmin;
@@ -10,7 +9,7 @@ const getWallet = async (req, res) => {
     const wallet = await db.collection('wallets').doc(user.uid).get();
     return response(res, 200, 'success', { wallet: wallet.data()})
   } catch (error) {
-    console.error(error);
+    return errorResponse(res, 500, 'error', error.message)
   }
 }
 

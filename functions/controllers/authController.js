@@ -123,7 +123,7 @@ const signin = async (req, res) => {
       return (0, _response.errorResponse)(res, 403, 'error', _messages.default.wrongCredentials);
     }
 
-    return (0, _response.errorResponse)(res, 500, 'error', error.code);
+    return (0, _response.errorResponse)(res, 500, 'error', error.message);
   }
 };
 

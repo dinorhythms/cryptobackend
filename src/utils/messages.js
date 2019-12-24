@@ -5,6 +5,7 @@ const messages = {
   emailExists: 'Email address already in use',
   signUpSuccess: 'User account successfully created',
   userNotFound: 'User not found, please check your email address',
+  noRecord: 'Record not found',
   wrongCredentials: 'Wrong credentials, please check and try again',
   incorrectPassword: 'Incorrect password',
   validEmail: 'Enter a valid email address',
@@ -16,7 +17,10 @@ const messages = {
   forbidden: 'You are not authorized to perform this operation',
   unauthorized: 'You do not have authorization',
   noToken: 'Token missing, you need a token to have access',
+  badPlanId: 'The selected plan is wrong, is check again',
+  amountOutOfRange: 'The selected amount is out of range',
   makeAdminSuccess: 'Successful, user is now an admin',
+  investmentSuccess: 'Successful, investment added',
 };
 
 export default messages;

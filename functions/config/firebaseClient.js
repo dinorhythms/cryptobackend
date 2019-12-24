@@ -16,7 +16,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 const config = {
   apiKey: process.env.FIREBASE_API,
   authDomain: "cryptofox.firebaseapp.com",
-  databaseURL: "https://cryptofox.firebaseio.com",
+  databaseURL: process.env.DATABASE_URL,
   projectId: "cryptofox",
   storageBucket: "cryptofox.appspot.com",
   messagingSenderId: process.env.SENDER_ID,
