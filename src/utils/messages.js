@@ -21,6 +21,9 @@ const messages = {
   amountOutOfRange: 'The selected amount is out of range',
   makeAdminSuccess: 'Successful, user is now an admin',
   investmentSuccess: 'Successful, investment added',
+  approvalSuccess: 'Successful, investment approved',
+  settledSuccess: 'Successful, investment settled',
+  notAllowed: 'Action not allowed, not yet time',
 };
 
 export default messages;

@@ -6,6 +6,10 @@ const startInvestmentSchema = Joi.object({
   amount: JoiValidator.validateNumber().required(),
 });
 
+const approveInvestmentSchema = Joi.object({
+  investmentId: JoiValidator.validateString().required(),
+});
+
 export {
-  startInvestmentSchema
+  startInvestmentSchema, approveInvestmentSchema
 };
