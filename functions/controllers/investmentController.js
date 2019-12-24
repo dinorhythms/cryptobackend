@@ -45,6 +45,7 @@ const getInvestment = async (req, res) => {
       investmentId
     } = req.params;
     const investmentDoc = await db.collection('investments').doc(investmentId).get();
+    if (!investmentDoc.exists) return (0, _response.errorResponse)(res, 500, 'error', _messages.default.unauthorized);
     const investment = investmentDoc.data();
     if (investment.userId != user.uid) return (0, _response.errorResponse)(res, 500, 'error', _messages.default.unauthorized);
     return (0, _response.default)(res, 200, 'success', {

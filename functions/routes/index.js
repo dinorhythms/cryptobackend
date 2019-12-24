@@ -11,6 +11,8 @@ var _walletRoutes = _interopRequireDefault(require("./walletRoutes"));
 
 var _investmentRoutes = _interopRequireDefault(require("./investmentRoutes"));
 
+var _withdrawalRoutes = _interopRequireDefault(require("./withdrawalRoutes"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const routes = router => {
@@ -20,6 +22,7 @@ const routes = router => {
   (0, _authRoutes.default)(router);
   (0, _walletRoutes.default)(router);
   (0, _investmentRoutes.default)(router);
+  (0, _withdrawalRoutes.default)(router);
 };
 
 var _default = routes;
