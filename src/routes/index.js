@@ -1,5 +1,6 @@
 import auth from './authRoutes';
 import wallet from './walletRoutes';
+import investment from './investmentRoutes';
 
 const routes = (router) => {
 
@@ -9,6 +10,7 @@ const routes = (router) => {
 
   auth(router);
   wallet(router);
+  investment(router);
 
 }
 

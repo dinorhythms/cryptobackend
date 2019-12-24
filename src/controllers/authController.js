@@ -72,7 +72,7 @@ const signin = async (req, res) => {
     if(error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password'){
       return errorResponse(res, 403, 'error', messages.wrongCredentials)
     }
-    return errorResponse(res, 500, 'error', error.code)
+    return errorResponse(res, 500, 'error', error.message)
   }
 }
 
