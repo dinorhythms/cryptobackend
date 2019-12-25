@@ -27,6 +27,10 @@ const messages = {
   settledSuccess: 'Successful, investment settled',
   settledWithdrawalSuccess: 'Successful, withdrawal settled',
   notAllowed: 'Action not allowed, not yet time',
+  planUpdated: 'plan was successfully updated',
+  accountCreated: 'Account was successfully created',
+  accountUpdated: 'Account was successfully updated',
+  settingsUpdated: 'Settings was successfully updated',
 };
 
 export default messages;
