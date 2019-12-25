@@ -2,6 +2,7 @@ import auth from './authRoutes';
 import wallet from './walletRoutes';
 import investment from './investmentRoutes';
 import withdrawal from './withdrawalRoutes';
+import setting from './settingRoutes';
 
 const routes = (router) => {
 
@@ -13,6 +14,7 @@ const routes = (router) => {
   wallet(router);
   investment(router);
   withdrawal(router);
+  setting(router);
 
 }
 
