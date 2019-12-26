@@ -37,12 +37,12 @@ const processInvestment = async (req, res, next) => {
   } = req.body;
 
   try {
-    const planDoc = await db.collection('plans').doc(planId).get();
+    const planDoc = await db.collection("plans").doc(planId).get();
     const plan = planDoc.data();
-    if (!plan) return (0, _response.errorResponse)(res, 400, 'error', badPlanId);
-    if (amount < plan.minimum || amount > plan.maximum) return (0, _response.errorResponse)(res, 400, 'error', amountOutOfRange); // get account to pay to
+    if (!plan) return (0, _response.errorResponse)(res, 400, "error", badPlanId);
+    if (amount < plan.minimum || amount > plan.maximum) return (0, _response.errorResponse)(res, 400, "error", amountOutOfRange); // get account to pay to
 
-    const accountDoc = await db.collection('accounts').get();
+    const accountDoc = await db.collection("accounts").get();
     const account = [];
     accountDoc.forEach(doc => account.push(doc.data())); //process investment
 
@@ -56,14 +56,14 @@ const processInvestment = async (req, res, next) => {
       total: (+amount * +plan.percentage / 100).toFixed(2),
       startTime: startDate.toISOString(),
       endTime: new Date(endDate.setDate(startDate.getDate() + +plan.investmentTime)).toISOString(),
-      status: 'pending',
+      status: "pending",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      payToAccount: account[Math.floor(Math.random() * Math.floor(2))]
+      payToAccount: account[Math.floor(Math.random() * Math.floor(account.length))]
     };
     return next();
   } catch (error) {
-    return (0, _response.errorResponse)(res, 500, 'error', error.message);
+    return (0, _response.errorResponse)(res, 500, "error", error.message);
   }
 };
 
