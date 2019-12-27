@@ -1,10 +1,15 @@
 import { https } from 'firebase-functions';
 import express from 'express';
 import trimmer from 'trim-request-body';
+import cors from 'cors';
 import './config/env';
 import routes from './routes';
 
 const app = express();
+
+// Automatically allow cross-origin requests
+app.use(cors({ origin: true }));
+
 const router = express.Router();
 routes(router);
 
