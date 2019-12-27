@@ -11,13 +11,19 @@ var _express = _interopRequireDefault(require("express"));
 
 var _trimRequestBody = _interopRequireDefault(require("trim-request-body"));
 
+var _cors = _interopRequireDefault(require("cors"));
+
 require("./config/env");
 
 var _routes = _interopRequireDefault(require("./routes"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const app = (0, _express.default)();
+const app = (0, _express.default)(); // Automatically allow cross-origin requests
+
+app.use((0, _cors.default)({
+  origin: true
+}));
 
 const router = _express.default.Router();
 
