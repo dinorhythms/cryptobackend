@@ -6,9 +6,13 @@ import {
   signUpSchema, signInSchema, authorizerSchema
 } from '../validation/userSchema';
 
-const { getUsers, signUp, signin, makeUserAdmin } = authController;
+const { getUsers, signUp, signin, makeUserAdmin, getUser } = authController;
 
 const auth = (router) => {
+
+  router.route('/auth/user')
+    .get(checkToken, getUser);
+
   router.route('/auth/users')
     .get(checkToken, authorize('admin'), getUsers);
 
