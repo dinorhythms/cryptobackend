@@ -6,6 +6,21 @@ import response, { errorResponse } from '../utils/response';
 const { db, auth } = firebaseAdmin;
 const { clientAuth } = firebaseClient;
 
+const getUser = async (req, res) => {
+  try {
+    const userId = req.user.uid;
+    const userDoc = await db.collection('users').doc(userId).get();
+    const user = userDoc.data();
+    user.admin = 'user';
+    if (req.user.admin === true) {
+      user.role = 'admin';
+    }
+    res.status(200).json({ user })
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 const getUsers = async (req, res) => {
   try {
     let users = [];
@@ -32,8 +47,8 @@ const signUp = async (req, res) => {
 
     const checkEmail = await checkEmailExist(email);
     if(checkEmail) return res.status(401).json({
-      status: 'success',
-      message: `email ${email} is not available, please check and try again`,  
+      status: 'error',
+      error: `email ${email} is not available, please check and try again`,  
     });
 
     const authUser = await auth.createUser({ email, password, phoneNumber: phone });
@@ -67,7 +82,17 @@ const signin = async (req, res) => {
     const { email, password } = req.body;
     const data = await clientAuth.signInWithEmailAndPassword(email, password);
     const token = await data.user.getIdToken();
-    return response(res, 201, 'success', {token});
+
+    //get user
+    const decoded = await auth.verifyIdToken(token);
+
+    const userDoc = await db.collection('users').doc(data.user.uid).get();
+    const user = userDoc.data();
+    user.role = 'user';
+    if (decoded.admin === true) {
+      user.role = 'admin';
+    }
+    return response(res, 201, 'success', { token, ...user });
   } catch (error) {
     if(error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password'){
       return errorResponse(res, 403, 'error', messages.wrongCredentials)
@@ -86,4 +111,4 @@ const makeUserAdmin = async (req, res) => {
   }
 }
 
-export default { getUsers, signUp, signin, makeUserAdmin };
+export default { getUsers, getUser, signUp, signin, makeUserAdmin };

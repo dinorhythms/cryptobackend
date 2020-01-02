@@ -21,10 +21,12 @@ const {
   getUsers,
   signUp,
   signin,
-  makeUserAdmin
+  makeUserAdmin,
+  getUser
 } = _authController.default;
 
 const auth = router => {
+  router.route('/auth/user').get(_userMiddlewares.checkToken, getUser);
   router.route('/auth/users').get(_userMiddlewares.checkToken, (0, _authorizer.default)('admin'), getUsers);
   router.route('/auth/signup').post((0, _validator.default)(_userSchema.signUpSchema), signUp);
   router.route('/auth/signin').post((0, _validator.default)(_userSchema.signInSchema), signin);

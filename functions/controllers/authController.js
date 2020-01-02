@@ -27,6 +27,25 @@ const {
   clientAuth
 } = _firebaseClient.default;
 
+const getUser = async (req, res) => {
+  try {
+    const userId = req.user.uid;
+    const userDoc = await db.collection('users').doc(userId).get();
+    const user = userDoc.data();
+    user.admin = 'user';
+
+    if (req.user.admin === true) {
+      user.role = 'admin';
+    }
+
+    res.status(200).json({
+      user
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const getUsers = async (req, res) => {
   try {
     let users = [];
@@ -64,8 +83,8 @@ const signUp = async (req, res) => {
     } = req.body;
     const checkEmail = await checkEmailExist(email);
     if (checkEmail) return res.status(401).json({
-      status: 'success',
-      message: `email ${email} is not available, please check and try again`
+      status: 'error',
+      error: `email ${email} is not available, please check and try again`
     });
     const authUser = await auth.createUser({
       email,
@@ -114,9 +133,20 @@ const signin = async (req, res) => {
       password
     } = req.body;
     const data = await clientAuth.signInWithEmailAndPassword(email, password);
-    const token = await data.user.getIdToken();
+    const token = await data.user.getIdToken(); //get user
+
+    const decoded = await auth.verifyIdToken(token);
+    const userDoc = await db.collection('users').doc(data.user.uid).get();
+    const user = userDoc.data();
+    user.role = 'user';
+
+    if (decoded.admin === true) {
+      user.role = 'admin';
+    }
+
     return (0, _response.default)(res, 201, 'success', {
-      token
+      token,
+      ...user
     });
   } catch (error) {
     if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
@@ -145,6 +175,7 @@ const makeUserAdmin = async (req, res) => {
 
 var _default = {
   getUsers,
+  getUser,
   signUp,
   signin,
   makeUserAdmin

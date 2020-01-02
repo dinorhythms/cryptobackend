@@ -31,7 +31,7 @@ export const processWithdrawal = async (req, res, next) => {
       amount,
       bankName,
       accountName,
-      accountName,
+      accountNo,
       status: 'pending',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
