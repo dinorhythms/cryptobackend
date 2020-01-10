@@ -24,15 +24,19 @@ const {
   getAllInvestments,
   getInvestment,
   adminGetInvestment,
+  updatePublicInvestment,
   startInvestment,
   approveInvestment,
-  settleInvestment
+  settleInvestment,
+  getPublicInvestments
 } = _investmentController.default;
 
 const investment = router => {
   router.route('/investments').get(_userMiddlewares.checkToken, getInvestments).post(_userMiddlewares.checkToken, (0, _validator.default)(_investmentSchema.startInvestmentSchema), _investmentMiddleware.processInvestment, startInvestment);
   router.route('/investments/:investmentId').get(_userMiddlewares.checkToken, (0, _validator.default)(_investmentSchema.approveInvestmentSchema), getInvestment);
   router.route('/admin/investments').get(_userMiddlewares.checkToken, (0, _authorizer.default)('admin'), getAllInvestments);
+  router.route('/investmentpublic/').get(getPublicInvestments);
+  router.route('/investmentpublic/:investmentId').patch(_userMiddlewares.checkToken, (0, _authorizer.default)('admin'), (0, _validator.default)(_investmentSchema.updatePublicSchema), updatePublicInvestment);
   router.route('/admin/investments/:investmentId').get(_userMiddlewares.checkToken, (0, _authorizer.default)('admin'), (0, _validator.default)(_investmentSchema.approveInvestmentSchema), adminGetInvestment);
   router.route('/admin/investments/:investmentId').post(_userMiddlewares.checkToken, (0, _authorizer.default)('admin'), (0, _validator.default)(_investmentSchema.approveInvestmentSchema), approveInvestment);
   router.route('/admin/investments/:investmentId/settle').post(_userMiddlewares.checkToken, (0, _authorizer.default)('admin'), (0, _validator.default)(_investmentSchema.approveInvestmentSchema), settleInvestment);

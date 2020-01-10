@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _axios = _interopRequireDefault(require("axios"));
+
 var _firebaseAdmin = _interopRequireDefault(require("../config/firebaseAdmin"));
 
 var _firebaseClient = _interopRequireDefault(require("../config/firebaseClient"));
@@ -133,7 +135,8 @@ const signin = async (req, res) => {
       password
     } = req.body;
     const data = await clientAuth.signInWithEmailAndPassword(email, password);
-    const token = await data.user.getIdToken(); //get user
+    const token = await data.user.getIdToken();
+    const refreshToken = data.user.refreshToken; //get user
 
     const decoded = await auth.verifyIdToken(token);
     const userDoc = await db.collection('users').doc(data.user.uid).get();
@@ -146,6 +149,7 @@ const signin = async (req, res) => {
 
     return (0, _response.default)(res, 201, 'success', {
       token,
+      refreshToken,
       ...user
     });
   } catch (error) {

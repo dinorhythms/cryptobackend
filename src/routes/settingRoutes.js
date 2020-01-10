@@ -7,14 +7,23 @@ import {
   updateAccountSchema, settingsSchema
 } from '../validation/settingSchema';
 
-const { getPlans, getPlan, getAllWithdrawals, getAccounts, updateAccount, updateSettings, getWithdrawal, adminGetWithdrawal,
-  updatePlan, createAccount, approveWithdrawal, settleWithdrawal } = settingController;
+const { getPlans, getPlan, getAccounts, updateAccount, updateSettings, getStates,
+   getCountries, updatePlan, createAccount, getCities } = settingController;
 
 const setting = (router) => {
 
   router.route('/plans')
     .get(getPlans);
-  
+
+  router.route('/signup/countries')
+    .get(getCountries);
+
+  router.route('/signup/states/:countryCode')
+    .get(getStates);
+
+  router.route('/signup/cities/:countryCode/:region')
+    .get(getCities);    
+
   router.route('/plans/:planId')
     .get(validate(planIdSchema), getPlan);
 

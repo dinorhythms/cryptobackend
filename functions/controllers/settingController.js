@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _axios = _interopRequireDefault(require("axios"));
+
 var _firebaseAdmin = _interopRequireDefault(require("../config/firebaseAdmin"));
 
 var _response = _interopRequireWildcard(require("../utils/response"));
@@ -48,6 +50,52 @@ const getPlan = async (req, res) => {
     return (0, _response.default)(res, 200, 'success', {
       id: planDoc.id,
       ...plan
+    });
+  } catch (error) {
+    return (0, _response.errorResponse)(res, 500, 'error', error.message);
+  }
+};
+
+const getCountries = async (_, res) => {
+  try {
+    const url = `http://battuta.medunes.net/api/country/all/?key=e079633f8eb8758e162f00a2ebab5f05`;
+    const resp = await (0, _axios.default)(url);
+    const countries = resp.data;
+    return (0, _response.default)(res, 200, 'success', {
+      countries
+    });
+  } catch (error) {
+    return (0, _response.errorResponse)(res, 500, 'error', error.message);
+  }
+};
+
+const getStates = async (req, res) => {
+  try {
+    const {
+      countryCode
+    } = req.params;
+    const url = `http://battuta.medunes.net/api/region/${countryCode}/all/?key=e079633f8eb8758e162f00a2ebab5f05`;
+    const resp = await (0, _axios.default)(url);
+    const states = resp.data;
+    return (0, _response.default)(res, 200, 'success', {
+      states
+    });
+  } catch (error) {
+    return (0, _response.errorResponse)(res, 500, 'error', error.message);
+  }
+};
+
+const getCities = async (req, res) => {
+  try {
+    const {
+      countryCode,
+      region
+    } = req.params;
+    const url = `http://battuta.medunes.net/api/city/${countryCode}/search/?region=${region}&key=e079633f8eb8758e162f00a2ebab5f05`;
+    const resp = await (0, _axios.default)(url);
+    const cities = resp.data;
+    return (0, _response.default)(res, 200, 'success', {
+      cities
     });
   } catch (error) {
     return (0, _response.errorResponse)(res, 500, 'error', error.message);
@@ -256,6 +304,9 @@ var _default = {
   adminGetWithdrawal,
   updateAccount,
   updateSettings,
+  getCountries,
+  getStates,
+  getCities,
   updatePlan,
   createAccount,
   getAccounts,
