@@ -1,3 +1,4 @@
+import axios from 'axios';
 import firebaseAdmin from '../config/firebaseAdmin';
 import firebaseClient from '../config/firebaseClient';
 import messages from '../utils/messages';
@@ -82,7 +83,7 @@ const signin = async (req, res) => {
     const { email, password } = req.body;
     const data = await clientAuth.signInWithEmailAndPassword(email, password);
     const token = await data.user.getIdToken();
-
+    const refreshToken = data.user.refreshToken;
     //get user
     const decoded = await auth.verifyIdToken(token);
 
@@ -92,7 +93,7 @@ const signin = async (req, res) => {
     if (decoded.admin === true) {
       user.role = 'admin';
     }
-    return response(res, 201, 'success', { token, ...user });
+    return response(res, 201, 'success', { token, refreshToken, ...user });
   } catch (error) {
     if(error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password'){
       return errorResponse(res, 403, 'error', messages.wrongCredentials)

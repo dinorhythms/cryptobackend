@@ -1,3 +1,4 @@
+import axios from 'axios';
 import firebaseAdmin from '../config/firebaseAdmin';
 import response, { errorResponse } from '../utils/response';
 import messages from '../utils/messages';
@@ -23,6 +24,41 @@ const getPlan = async (req, res) => {
     if(!planDoc.exists) return errorResponse(res, 500, 'error', messages.unauthorized);
     const plan = planDoc.data();
     return response(res, 200, 'success', { id:planDoc.id, ...plan })
+  } catch (error) {
+    return errorResponse(res, 500, 'error', error.message)
+  }
+}
+
+const getCountries = async (_, res) => {
+  try {
+    const url = `http://battuta.medunes.net/api/country/all/?key=e079633f8eb8758e162f00a2ebab5f05`;
+    const resp = await axios(url);
+    const countries = resp.data;
+    return response(res, 200, 'success', { countries })
+  } catch (error) {
+    return errorResponse(res, 500, 'error', error.message)
+  }
+}
+
+const getStates = async (req, res) => {
+  try {
+    const { countryCode } = req.params;
+    const url = `http://battuta.medunes.net/api/region/${countryCode}/all/?key=e079633f8eb8758e162f00a2ebab5f05`;
+    const resp = await axios(url);
+    const states = resp.data;
+    return response(res, 200, 'success', { states })
+  } catch (error) {
+    return errorResponse(res, 500, 'error', error.message)
+  }
+}
+
+const getCities = async (req, res) => {
+  try {
+    const { countryCode, region } = req.params;
+    const url = `http://battuta.medunes.net/api/city/${countryCode}/search/?region=${region}&key=e079633f8eb8758e162f00a2ebab5f05`;
+    const resp = await axios(url);
+    const cities = resp.data;
+    return response(res, 200, 'success', { cities })
   } catch (error) {
     return errorResponse(res, 500, 'error', error.message)
   }
@@ -187,5 +223,5 @@ const settleWithdrawal = async (req, res) => {
   }
 }
 
-export default { getPlans, getPlan, adminGetWithdrawal, updateAccount, updateSettings,
+export default { getPlans, getPlan, adminGetWithdrawal, updateAccount, updateSettings, getCountries, getStates, getCities,
   updatePlan, createAccount, getAccounts, getAllWithdrawals, approveWithdrawal, settleWithdrawal };

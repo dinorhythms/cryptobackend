@@ -4,11 +4,11 @@ import { checkToken } from '../middlewares/userMiddlewares';
 import authorize from '../middlewares/authorizer';
 import { processInvestment } from '../middlewares/investmentMiddleware';
 import {
-  startInvestmentSchema, approveInvestmentSchema
+  startInvestmentSchema, approveInvestmentSchema, updatePublicSchema
 } from '../validation/investmentSchema';
 
-const { getInvestments, getAllInvestments, getInvestment, adminGetInvestment,
-  startInvestment, approveInvestment, settleInvestment } = investmentController;
+const { getInvestments, getAllInvestments, getInvestment, adminGetInvestment, updatePublicInvestment,
+  startInvestment, approveInvestment, settleInvestment, getPublicInvestments } = investmentController;
 
 const investment = (router) => {
   router.route('/investments')
@@ -20,6 +20,12 @@ const investment = (router) => {
   
   router.route('/admin/investments')
     .get(checkToken, authorize('admin'), getAllInvestments);
+
+  router.route('/investmentpublic/')
+    .get(getPublicInvestments)
+  
+  router.route('/investmentpublic/:investmentId')
+    .patch(checkToken, authorize('admin'), validate(updatePublicSchema), updatePublicInvestment);
   
   router.route('/admin/investments/:investmentId')
     .get(checkToken, authorize('admin'), validate(approveInvestmentSchema), adminGetInvestment);

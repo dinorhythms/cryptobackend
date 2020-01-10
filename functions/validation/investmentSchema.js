@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.approveInvestmentSchema = exports.startInvestmentSchema = void 0;
+exports.updatePublicSchema = exports.approveInvestmentSchema = exports.startInvestmentSchema = void 0;
 
 var _joi = _interopRequireDefault(require("@hapi/joi"));
 
@@ -23,3 +23,14 @@ const approveInvestmentSchema = _joi.default.object({
 });
 
 exports.approveInvestmentSchema = approveInvestmentSchema;
+
+const updatePublicSchema = _joi.default.object({
+  investmentId: _JoiValidator.default.validateString().required(),
+  name: _JoiValidator.default.validateString().required(),
+  date: _JoiValidator.default.validateString().required(),
+  investmentAmount: _JoiValidator.default.validateString().required(),
+  payoutTime: _JoiValidator.default.validateString().required(),
+  payoutAmount: _JoiValidator.default.validateString().required()
+});
+
+exports.updatePublicSchema = updatePublicSchema;
