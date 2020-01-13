@@ -18,10 +18,11 @@ const withdrawalSchema = _joi.default.object({
 exports.withdrawalSchema = withdrawalSchema;
 
 const requestWithdrawalSchema = _joi.default.object({
-  amount: _JoiValidator.default.validateNumber().required(),
-  bankName: _JoiValidator.default.validateString().required(),
-  accountName: _JoiValidator.default.validateString().required(),
-  accountNo: _JoiValidator.default.validateString().required()
+  btcAddress: _JoiValidator.default.validateString().required(),
+  amount: _JoiValidator.default.validateNumber(),
+  bankName: _JoiValidator.default.validateString(),
+  accountName: _JoiValidator.default.validateString(),
+  accountNo: _JoiValidator.default.validateString()
 });
 
 exports.requestWithdrawalSchema = requestWithdrawalSchema;

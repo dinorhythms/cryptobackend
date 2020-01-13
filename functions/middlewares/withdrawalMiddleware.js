@@ -47,6 +47,7 @@ const processWithdrawal = async (req, res, next) => {
 
     req.withdrawal = {
       userId: req.user.uid,
+      btcAddress,
       amount,
       bankName,
       accountName,

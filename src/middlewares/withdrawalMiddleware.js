@@ -28,6 +28,7 @@ export const processWithdrawal = async (req, res, next) => {
     //process withdrawal
     req.withdrawal = {
       userId: req.user.uid,
+      btcAddress,
       amount,
       bankName,
       accountName,
